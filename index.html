@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>스마트보안학과 길잡이</title>
+<meta name="description" content="가천대학교 스마트보안학과 학생들이 함께 만드는 진로·학습 커뮤니티">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <small class="mono">Gachon Univ. · Dept. of Smart Security</small>
+      <h1>스마트보안학과 <span>길잡이</span></h1>
+    </div>
+    <div class="topright"><button type="button" class="btn ghost rulesbtn" data-rules>이용 규칙</button><div class="authbox" id="authbox"></div></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="메뉴">
+  <div class="wrap tabrow" role="tablist" id="tabrow"></div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <div id="banner"></div>
+
+    <!-- 0. 홈 -->
+    <section class="panel" id="p-home" role="tabpanel" hidden>
+      <div class="homehero">
+        <h2>스마트보안학과 학생들이 함께 만드는 진로·학습 커뮤니티</h2>
+        <p>보안 진로를 탐색하고, 선배 이야기와 과목 자료를 나누고, 궁금한 걸 익명으로 물어보세요.</p>
+        <div class="quick">
+          <button type="button" data-go="career"><b>진로 지도</b><span>직무 11개와 커리어 경로</span></button>
+          <button type="button" data-go="seniors"><b>선배 이야기</b><span>취업 · 대학원 · 인턴 후기</span></button>
+          <button type="button" data-go="opps"><b>연구실 · 활동</b><span>학과 연구실, 동아리, CTF</span></button>
+          <button type="button" data-go="courses"><b>과목 가이드</b><span>수강 후기와 정리본</span></button>
+          <button type="button" data-go="qna"><b>QnA</b><span>익명으로 묻고 답하기</span></button>
+        </div>
+      </div>
+      <h3 class="homesec">새 소식</h3>
+      <div class="news">
+        <section class="card newscard"><div class="nhead"><h4>최근 선배 이야기</h4><button type="button" class="linkbtn" data-go="seniors">전체 보기</button></div><div id="homeStories"></div></section>
+        <section class="card newscard"><div class="nhead"><h4>최근 QnA</h4><button type="button" class="linkbtn" data-go="qna">전체 보기</button></div><div id="homeQna"></div></section>
+        <section class="card newscard"><div class="nhead"><h4>인기 과목 자료</h4><button type="button" class="linkbtn" data-go="courses">전체 보기</button></div><div id="homeHot"></div></section>
+      </div>
+      <button type="button" class="bookbanner" data-go-books><b>선배 교재 나눔</b><span id="homeBooks"></span><span class="arrow">→</span></button>
+
+      <section class="card admin" id="reportAdmin" hidden>
+        <div class="admin-head"><h3>운영 관리</h3><span class="hint">학생회 관리자에게만 보여요</span></div>
+        <div id="usage"></div>
+        <h4 style="margin:4px 0 0">신고된 글</h4>
+        <div id="reportList"></div>
+      </section>
+
+      <p class="ruleslink"><button type="button" class="linkbtn" data-rules>이용 규칙 다시 보기</button></p>
+    </section>
+
+    <!-- 1. 진로 지도 -->
+    <section class="panel" id="p-career" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h2>진로 지도</h2>
+        <p>보안 진로는 <b>무슨 일을 하나(직무)</b>와 <b>어디서 일하나(업종)</b>로 나눠 보면 쉬워요. 직무를 하나씩 골라 하는 일, 필요한 역량, 자격증, 관련 과목을 확인하고, 아래에서 업종별 특징도 살펴보세요.</p>
+      </div>
+      <div class="career">
+        <div class="fieldlist" id="fieldlist" role="list"></div>
+        <article class="card fielddoc" id="fielddoc"></article>
+      </div>
+      <div class="sectorhead">
+        <h3>어디서 일할까</h3>
+        <p>같은 직무라도 업종에 따라 하는 일의 비중이 달라요. 업종 카드의 직무를 누르면 위에서 자세히 볼 수 있어요.</p>
+      </div>
+      <div class="sectors" id="sectors"></div>
+    </section>
+
+
+    <!-- 3. 선배 이야기 -->
+    <section class="panel" id="p-seniors" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h2>선배 이야기</h2>
+        <p>취업, 대학원, 인턴, 대외활동을 경험한 선배들이 직접 남기는 이야기예요. 준비 과정, 후회한 점, 후배에게 하고 싶은 말을 편하게 적어 주세요. 모든 글은 익명으로 올라가요.</p>
+      </div>
+      <div class="qna">
+        <form class="card ask" id="storyForm" autocomplete="off">
+          <h3>이야기 남기기</h3>
+          <div class="field"><label for="sType">분류</label>
+            <select id="sType"><option value="job">취업</option><option value="grad">대학원</option><option value="intern">인턴</option><option value="etc">대외활동·기타</option></select></div>
+          <div class="field"><label for="sField">관련 직무 (선택)</label><select id="sField"><option value="">선택 안 함</option></select></div>
+          <div class="field"><label for="sWhere">회사 유형 · 세부 분야 (선택)</label><input type="text" id="sWhere" maxlength="40" placeholder="예) 금융권, 보안 전문기업"></div>
+          <div class="field"><label for="sTitle">제목</label><input type="text" id="sTitle" maxlength="80" placeholder="예) 비전공 느낌으로 시작해서 보안관제 취업까지"></div>
+          <div class="field"><label for="sBody">내용</label><textarea id="sBody" maxlength="6000" style="min-height:160px" placeholder="준비한 과정, 도움이 된 활동, 후배에게 하고 싶은 말 등"></textarea></div>
+          <div class="rulesmini">
+            <b>글쓰기 전에 확인해 주세요</b>
+            <ul><li>욕설·비방, 특정인을 알아볼 수 있는 내용은 쓰지 않아요</li><li>이름·학번·연락처 같은 개인정보는 올리지 않아요</li><li>모든 글은 익명이고, 내가 쓴 글은 나만 지울 수 있어요</li></ul>
+            <button type="button" class="linkbtn" data-rules>이용 규칙 전체 보기</button>
+          </div>
+          <button class="btn" type="submit" id="sSubmit">올리기</button>
+          <p class="hint" id="sHint"></p>
+        </form>
+        <div class="qlist">
+          <div class="filterbar" id="seniorFilter" style="margin-bottom:0"></div>
+          <div id="seniors" class="qlist"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 대회활동 및 기회 -->
+    <section class="panel" id="p-opps" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h2>연구실 · 활동</h2>
+        <p>학과 연구실과 동아리, 보안 교육 프로그램, CTF, 컨퍼런스를 모았어요. 외부 프로그램의 일정은 매년 바뀌니 공식 공지를 꼭 확인하세요.</p>
+      </div>
+      <div class="filterbar" id="oppFilter"></div>
+      <div class="opps" id="opps"></div>
+    </section>
+
+    <!-- 5. 과목 가이드 -->
+    <section class="panel" id="p-courses" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h2>과목 가이드</h2>
+        <p>과목별 수강 후기와 필기·정리본을 누구나 익명으로 올릴 수 있어요. 도움이 된 글에는 좋아요를 눌러 주세요. 목록에 없는 과목은 직접 추가하면 됩니다.</p>
+      </div>
+
+      <div class="seg" role="group" aria-label="과목 가이드 보기">
+        <button type="button" class="segbtn" id="segCourses" aria-pressed="true">과목별 자료</button>
+        <button type="button" class="segbtn" id="segBooks" aria-pressed="false">교재 나눔</button>
+      </div>
+
+      <div id="bookView" hidden>
+        <div class="bookintro card">
+          <div>
+            <h3>선배 교재 나눔</h3>
+            <p>선배들이 쓰던 교재를 학생회가 모아 나눠 드려요. 원하는 교재를 신청하면 학생회가 확인한 뒤 전달 일정을 알려 드립니다. 교재마다 수량이 정해져 있어서 남은 수량이 0이면 신청할 수 없어요.</p>
+          </div>
+          <div class="steps mono"><span>신청</span>→<span>학생회 승인</span>→<span>수령</span></div>
+        </div>
+
+        <section class="card reqpanel" id="reqPanel" hidden>
+          <div class="qhead"><h3 id="reqTitle"></h3><button type="button" class="linkbtn" id="reqClose">닫기</button></div>
+          <form id="reqForm" class="reqform" autocomplete="off">
+            <div class="field"><label for="rName">이름</label><input type="text" id="rName" maxlength="20"></div>
+            <div class="field"><label for="rSid">학번</label><input type="text" id="rSid" maxlength="12" inputmode="numeric"></div>
+            <div class="field"><label for="rContact">연락 방법</label><input type="text" id="rContact" maxlength="40" placeholder="카톡 ID 또는 전화번호"></div>
+            <div class="field full"><label for="rMemo">하고 싶은 말 (선택)</label><input type="text" id="rMemo" maxlength="100" placeholder="예) 수요일 오후 수령 가능해요"></div>
+            <p class="hint full">입력한 이름·학번·연락처는 신청한 본인과 학생회만 볼 수 있어요. 처리가 끝난 신청 정보는 학기 말에 일괄 삭제돼요.</p>
+            <div class="full"><button class="btn" type="submit" id="rSubmit">신청하기</button> <span class="hint" id="rHint"></span></div>
+          </form>
+        </section>
+
+        <div class="booktools">
+          <input type="text" id="bookSearch" placeholder="교재 제목·저자·과목으로 찾기" aria-label="교재 검색">
+          <label class="chk"><input type="checkbox" id="bookAvail"><span>신청 가능한 것만</span></label>
+        </div>
+        <div class="books" id="books"></div>
+
+        <section class="myreq" id="myReqSec" hidden>
+          <h3>내 신청 내역</h3>
+          <div id="myReqs" class="qlist"></div>
+        </section>
+
+        <section class="admin card" id="adminSec" hidden>
+          <div class="admin-head"><h3>학생회 관리</h3><span class="hint">학생회 관리자에게만 보여요</span></div>
+          <div class="admin-tabs filterbar">
+            <button class="fbtn" type="button" data-at="reqs" aria-pressed="true">신청 관리</button>
+            <button class="fbtn" type="button" data-at="add" aria-pressed="false">교재 등록</button>
+          </div>
+          <div id="adminReqs"></div>
+          <form id="bookForm" class="bookform" hidden autocomplete="off">
+            <div class="field full"><label for="bTitle">교재 제목</label><input type="text" id="bTitle" maxlength="80" placeholder="예) 운영체제 공룡책 10판"></div>
+            <div class="field"><label for="bAuthor">저자 · 출판사 (선택)</label><input type="text" id="bAuthor" maxlength="60"></div>
+            <div class="field"><label for="bCourse">관련 과목</label><select id="bCourse"></select></div>
+            <div class="field"><label for="bQty">수량</label><input type="text" id="bQty" inputmode="numeric" value="1" maxlength="3"></div>
+            <div class="field"><label for="bCond">상태</label>
+              <select id="bCond"><option>깨끗함</option><option>필기 조금</option><option>필기 많음</option></select></div>
+            <div class="field full"><label for="bNote">메모 (선택)</label><input type="text" id="bNote" maxlength="100" placeholder="예) 21학번 선배 기증, 형광펜 표시 있음"></div>
+            <input type="hidden" id="bEditId">
+            <div class="full"><button class="btn" type="submit" id="bSubmit">등록</button> <button class="btn ghost" type="button" id="bReset" hidden>수정 취소</button> <span class="hint" id="bHint"></span></div>
+          </form>
+        </section>
+      </div>
+
+      <div id="courseListView">
+        <div class="ctoolbar">
+          <input type="text" id="courseSearch" placeholder="과목 이름으로 찾기" aria-label="과목 검색">
+          <button class="btn ghost" type="button" id="addCourseToggle">+ 과목 추가</button>
+        </div>
+        <form class="card addcourse" id="addCourseForm" hidden autocomplete="off">
+          <div class="field"><label for="acYear">학년</label>
+            <select id="acYear"><option value="1">1학년</option><option value="2">2학년</option><option value="3">3학년</option><option value="4">4학년</option><option value="0">교양·기타</option></select></div>
+          <div class="field grow"><label for="acName">과목명</label><input type="text" id="acName" maxlength="40" placeholder="예) 네트워크 보안"></div>
+          <div class="field grow"><label for="acDesc">한 줄 설명 (선택)</label><input type="text" id="acDesc" maxlength="60" placeholder="예) 방화벽·IDS 원리와 실습"></div>
+          <div class="acbtns"><button class="btn" type="submit" id="acSubmit">추가</button><button class="btn ghost" type="button" id="acCancel">취소</button></div>
+          <p class="hint" id="acHint" style="grid-column:1/-1"></p>
+        </form>
+        <div id="courses"></div>
+      </div>
+
+      <div id="courseDetail" hidden>
+        <button class="linkbtn back" type="button" id="courseBack">← 과목 목록으로</button>
+        <div class="cdhead">
+          <span class="mono" id="cdYear" style="color:var(--accent)"></span>
+          <h3 id="cdName"></h3>
+          <p id="cdDesc" class="sub"></p>
+        </div>
+        <div class="cdgrid">
+          <div class="cdmain">
+            <div id="cdBooks"></div>
+            <div class="filterbar" id="kindFilter" style="margin-bottom:0"></div>
+            <div id="postList" class="qlist"></div>
+          </div>
+          <form class="card ask" id="postForm" autocomplete="off">
+            <h3>자료 올리기</h3>
+            <div class="field"><label for="pKind">종류</label>
+              <select id="pKind"><option value="review">수강 후기</option><option value="note">필기 · 정리본</option></select></div>
+            <div class="field" id="pRatingWrap"><label for="pRating">추천도</label>
+              <select id="pRating"><option value="5">5 · 강력 추천</option><option value="4">4 · 추천</option><option value="3" selected>3 · 보통</option><option value="2">2 · 비추천</option><option value="1">1 · 강력 비추천</option></select></div>
+            <div class="field"><label for="pSem">수강 학기 (선택)</label><input type="text" id="pSem" maxlength="20" placeholder="예) 2학년 1학기 · ○○○ 교수님"></div>
+            <div class="field"><label for="pTitle">제목</label><input type="text" id="pTitle" maxlength="80" placeholder="한 줄 요약"></div>
+            <div class="field"><label for="pBody">내용</label><textarea id="pBody" maxlength="4000"></textarea></div>
+            <div class="field" id="pFileWrap"><label for="pFile">파일 첨부 (선택)</label>
+              <input type="file" id="pFile" accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.txt,.md,.csv">
+              <span class="hint">PDF · 이미지 · 텍스트 파일, 5MB까지. 더 큰 파일은 아래 링크 칸에 구글 드라이브 주소로 올려 주세요. PDF 작성자 정보에 실명이 남지 않았는지도 확인해 주세요.</span></div>
+            <p class="notice">직접 정리한 자료만 올려 주세요. 교재 스캔본, 교수님 강의자료 원본, 시험 문제 원본은 저작권 때문에 올릴 수 없어요.</p>
+            <div class="field"><label for="pLink">링크 (선택)</label><input type="text" id="pLink" maxlength="500" placeholder="구글 드라이브, 노션 등 https:// 주소"></div>
+            <div class="rulesmini">
+            <b>글쓰기 전에 확인해 주세요</b>
+            <ul><li>욕설·비방, 특정인을 알아볼 수 있는 내용은 쓰지 않아요</li><li>이름·학번·연락처 같은 개인정보는 올리지 않아요</li><li>모든 글은 익명이고, 내가 쓴 글은 나만 지울 수 있어요</li></ul>
+            <button type="button" class="linkbtn" data-rules>이용 규칙 전체 보기</button>
+          </div>
+            <button class="btn" type="submit" id="pSubmit">올리기</button>
+            <p class="hint" id="pHint"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. QnA -->
+    <section class="panel" id="p-qna" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h2>QnA</h2>
+        <p>진로, 수강, 대회, 학교생활 무엇이든 질문을 남겨 주세요. 질문과 답변 모두 익명이고, 선배와 동기들이 답변을 달아 줘요.</p>
+      </div>
+      <div class="qna">
+        <form class="card ask" id="askForm" autocomplete="off">
+          <h3>질문 남기기</h3>
+          <div class="field">
+            <label for="qCat">분류</label>
+            <select id="qCat">
+              <option>진로</option><option>수강·과목</option><option>대회·활동</option><option>자격증</option><option>학교생활</option><option>기타</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="qTitle">제목</label>
+            <input type="text" id="qTitle" maxlength="80" placeholder="예) 2학년 때 정보보안기사 준비해도 될까요?">
+          </div>
+          <div class="field">
+            <label for="qBody">내용</label>
+            <textarea id="qBody" maxlength="2000" placeholder="상황을 조금 더 적어 주면 답변이 구체적이에요."></textarea>
+          </div>
+          <div class="rulesmini">
+            <b>글쓰기 전에 확인해 주세요</b>
+            <ul><li>욕설·비방, 특정인을 알아볼 수 있는 내용은 쓰지 않아요</li><li>이름·학번·연락처 같은 개인정보는 올리지 않아요</li><li>모든 글은 익명이고, 내가 쓴 질문은 나만 지울 수 있어요</li></ul>
+            <button type="button" class="linkbtn" data-rules>이용 규칙 전체 보기</button>
+          </div>
+          <button class="btn" type="submit" id="qSubmit">질문 등록</button>
+          <p class="hint" id="askHint"></p>
+        </form>
+        <div class="qlist">
+          <div class="filterbar" id="qFilter" style="margin-bottom:0"></div>
+          <div id="qlist" class="qlist"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <footer class="site wrap">스마트보안학과 길잡이 · 학생회가 운영하는 학생 커뮤니티예요. 문의와 신고는 사이트의 '신고' 버튼이나 학생회로 해 주세요. · <a href="privacy.html">개인정보처리방침</a></footer>
+</main>
+
+<div class="rulesmodal" id="rulesModal" hidden>
+  <div class="rmbox" role="dialog" aria-modal="true" aria-labelledby="rulesTitle" tabindex="-1">
+    <h2 id="rulesTitle">이용 규칙</h2>
+    <p class="hint" id="rulesLead">스마트보안학과 길잡이는 학생들이 함께 만드는 익명 커뮤니티예요. 들어가기 전에 꼭 읽어 주세요.</p>
+    <ol>
+          <li>모든 글과 댓글은 익명이에요. 운영자는 작성자를 확인하거나 공개하지 않아요.</li>
+          <li>욕설, 비방, 특정인을 알아볼 수 있는 내용은 쓰지 마세요.</li>
+          <li>본인이나 다른 사람의 개인정보(이름, 학번, 연락처 등)를 올리지 마세요.</li>
+          <li>필기·정리본은 직접 정리한 자료만 올려 주세요. 교재 스캔본, 교수님 강의자료 원본, 시험 문제 원본은 저작권 때문에 올릴 수 없어요.</li>
+          <li>광고와 도배 글은 삭제돼요.</li>
+          <li>규칙에 어긋나는 글이나 댓글은 '신고'를 눌러 주세요. 운영자가 확인한 뒤 삭제해요.</li>
+          <li>교재 나눔 신청 정보(이름, 학번, 연락처)는 신청한 본인과 학생회만 볼 수 있고, 처리가 끝난 신청 정보는 학기 말에 일괄 삭제해요.</li>
+        </ol>
+    <div class="rmbtns">
+      <button type="button" class="btn" id="rulesAgree">동의하고 시작하기</button>
+      <button type="button" class="btn ghost" id="rulesClose" hidden>닫기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
